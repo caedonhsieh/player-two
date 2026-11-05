@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Player Two — a talk-only adventure</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>PLAYER TWO</h1>
+  <p class="tagline">You are not the hero. You are Player Two — the little wisp in the knight's helmet. Talk to him. That's your only control.</p>
+</header>
+
+<main>
+  <section id="stage">
+    <div id="room-label">Room 1 — The Gate Room</div>
+    <div id="bubble" class="bubble hidden" aria-live="polite"></div>
+    <canvas id="game" width="640" height="440" aria-label="Isometric grid room. Bram the knight stands on a tile."></canvas>
+    <div id="hero-state">Bram is standing still, waiting for instructions.</div>
+    <div id="objectives">
+      <h2>Objective</h2>
+      <ul>
+        <li id="obj-key">☐ Find the key <span class="hint">(it's behind the barred gate)</span></li>
+        <li id="obj-door">☐ Unlock the east door and escape</li>
+        <li id="obj-lever">☐ Optional: pull the lever to open the gate</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="panel">
+    <div id="loader">
+      <h2>Bram's brain</h2>
+      <p>Real LLM, running in <em>your</em> browser via WebLLM (Qwen2.5-1.5B-Instruct, ~1&nbsp;GB). No server, no simulated hero — if the model can't load, the game won't start.</p>
+      <p id="gpu-note"></p>
+      <button id="load-btn" type="button">Wake Bram up</button>
+      <div id="progress-wrap" class="hidden">
+        <div id="progress-bar"><div id="progress-fill"></div></div>
+        <p id="progress-text">Starting download…</p>
+      </div>
+      <p id="load-error" class="error hidden"></p>
+      <button id="retry-btn" type="button" class="hidden">Try loading again</button>
+    </div>
+
+    <div id="game-ui" class="hidden">
+      <form id="chat-form" autocomplete="off">
+        <label for="chat-input">Talk to Bram <span class="hint">(type, don't click — there are no controls)</span></label>
+        <div class="chat-row">
+          <input id="chat-input" type="text" placeholder="e.g. walk south two tiles" enterkeyhint="send" disabled>
+          <button id="send-btn" type="submit" disabled>Send</button>
+        </div>
+      </form>
+      <p id="thinking" class="hidden">Bram is thinking…</p>
+      <p class="tips">Try short, specific orders. Bram only remembers the last few things you said, takes “left” and “it” literally, and does the <em>first</em> step of a plan, then forgets the rest. If he's confused, he'll ask — answer him.</p>
+      <div id="log" aria-live="polite"></div>
+      <button id="restart-btn" type="button">Restart room</button>
+    </div>
+
+    <div id="win" class="hidden">
+      <h2>You escaped!</h2>
+      <p>Bram did it. Well — <em>you</em> did it. He just did the walking. That's the whole game, and that's the point.</p>
+      <button id="play-again-btn" type="button">Play again</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Player Two · talk-only isometric adventure · hero's brain: Qwen2.5-1.5B-Instruct in-browser (WebLLM / WebGPU) · <a href="https://github.com/caedonhsieh/player-two">github.com/caedonhsieh/player-two</a></p>
+  <p class="fineprint">Needs a WebGPU browser (desktop Chrome / Edge work best). First load downloads ~1 GB of model weights and caches them locally.</p>
+</footer>
+
+<script type="module" src="game.js"></script>
+</body>
+</html>
